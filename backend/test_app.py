@@ -9,11 +9,11 @@ def client():
 
 def test_health_check(client):
     response = client.get("/")
-    assert response.status_code == 999
+    assert response.status_code == 200
 
 def test_get_todos(client):
     response = client.get("/todos")
-    assert response.status_code == 999
+    assert response.status_code == 200
 
 def test_add_todo(client):
     response = client.post(

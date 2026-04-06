@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo Installing backend dependencies...
+      - pip install flask flask-cors pytest
+
+  pre_build:
+    commands:
+      - echo Running backend tests...
+      - cd backend
+      - python -m pytest test_app.py -v
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building Docker images...
+      - cd $CODEBUILD_SRC_DIR
+      - docker build --platform linux/amd64 -t todo-backend ./backend
+      - docker build --platform linux/amd64 -t todo-frontend ./frontend
+
+  post_build:
+    commands:
+      - echo Build completed successfully!
+
+artifacts:
+  files:
+    - '**/*'
